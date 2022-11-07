@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const users = require('./routes/users')
-const company = require('./routes/company')
+const employer = require('./routes/employer')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const passport = require('passport')
@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/users', users)
-app.use('/company', company)
+app.use('/employer', employer)
 
 app.use(express.static("public"))
 

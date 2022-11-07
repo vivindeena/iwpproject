@@ -4,7 +4,7 @@ const verify = require('./verifyToken')
 const { Auth } = require('two-step-auth')
 const jwt = require('jsonwebtoken')
 
-const User = require('../models/User')
+const Employer = require('../models/Employer')
 const Otp = require('../models/Otp')
 
 // @TODO Add recaptcha middleware
@@ -15,7 +15,7 @@ router.post('/register', (req, res) => {
     })
   }
 
-  User.findOne({ email: req.body.email })
+  Employer.findOne({ email: req.body.email })
     .then((user) => {
       if (user) {
         return res.status(400).json({
@@ -46,7 +46,7 @@ router.post('/otpVerify', (req, res) => {
       errorMessage: 'Missing Required Params'
     })
   }
-  User.findOne({ email: req.body.email })
+  Employer.findOne({ email: req.body.email })
     .then((user) => {
       if (user) {
         return res.status(400).json({
@@ -81,7 +81,7 @@ router.post('/otpVerify', (req, res) => {
                 const email = req.body.email
                 const phoneNo = req.body.phoneNo
                 const password = req.body.password
-                const newUser = new User({
+                const newUser = new Employer({
                   name,
                   password,
                   email,
@@ -146,7 +146,7 @@ router.post('/forgotPassword', (req, res) => {
     })
   }
 
-  User.findOne({ email: req.body.email })
+  Employer.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
         return res.status(400).json({
@@ -156,7 +156,7 @@ router.post('/forgotPassword', (req, res) => {
         login(req.body.email, "forgotPassword")
         return res.status(200).json({
           otpSentStatus: 'success',
-          message: 'call updatePassowrd otp verification endpoint'
+          message: 'call updatePassword otp verification endpoint'
         })
       }
     })
@@ -195,7 +195,7 @@ router.patch('/updatePassword', (req, res) => {
             errorMessage: 'OTP expired'
           })
         } else {
-          User.findOne({ email: req.body.email })
+          Employer.findOne({ email: req.body.email })
             .then((user) => {
               if (!user) {
                 return res.status(400).json({
@@ -216,7 +216,7 @@ router.patch('/updatePassword', (req, res) => {
                       })
                     }
 
-                    User.updateOne(
+                    Employer.updateOne(
                       { email: req.body.email },
                       {
                         $set: {
@@ -256,7 +256,7 @@ router.patch('/updatePassword', (req, res) => {
 
 router.post('/login', (req, res) => {
   // CHECKING IF EMAIL EXISTS
-  User.findOne({ email: req.body.email })
+  Employer.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
         return res.status(400).send('Email or Password Does Not Exist')
@@ -292,79 +292,6 @@ router.post('/login', (req, res) => {
       console.log('Error:', err)
     })
 })
-
-router.get('/profile', verify, (req, res) => {
-  User.findOne({ email: req.user.email })
-    .then((user) => {
-      if (!user) {
-        return res.status(400).json({
-          Message: "User doesn't Exists!"
-        })
-      }
-      return res.status(200).json({
-        name: user.name,
-        email: user.email,
-        phoneNo: user.phoneNo,
-        resumeLink: user.resumeLink
-      })
-    })
-    .catch((err) => {
-      console.log('Error:', err)
-      return res.status(400).json({
-        Error: err
-      })
-    })
-})
-
-router.patch('/update', verify, (req, res) => {
-  if (!req.body.name || !req.body.phoneNo) {
-    return res.status(400).json({
-      errorMessage: 'Missing Required Params'
-    })
-  }
-
-  User.findOne({ email: req.user.email })
-    .then((user) => {
-      if (!user) {
-        return res.status(400).json({
-          errorMessage: "User doesn't Exists!"
-        })
-      } else {
-        User.updateOne(
-          { email: req.user.email },
-          {
-            $set: {
-              name: req.body.name,
-              phoneNo: req.body.phoneNo
-            }
-          }
-        )
-          .then((update) => {
-            req.user.resumeLink = req.body.resumeLink
-            req.user.name = req.body.name
-            req.user.phoneNo = req.body.phoneNo
-            res.status(200).json({
-              message: 'Details updated Successfully!'
-            })
-          })
-          .catch((err) => {
-            console.log('Error:', err)
-          })
-      }
-    })
-    .catch((err) => {
-      console.log('Error:', err)
-    })
-})
-
-router.get('/logout', (req, res) => {
-  return res.status(200).json({
-    message: 'logged out'
-  })
-})
-
-let otp = 0
-
 async function login(emailId, requirement) {
   try {
     const res = await Auth(emailId, 'Job Portal')
@@ -402,27 +329,74 @@ async function login(emailId, requirement) {
   }
 }
 
-router.get('/test', (req, res) => {
-  const current = new Date()
-  let hours = current.getHours()
-  body = current.getMinutes().toString()
-  if(body.length == 1)
-    body="0"+body
-  return res.status(200).json({
-    message: body
-  })
+router.get('/profile', verify, (req, res) => {
+  Employer.findOne({ email: req.user.email })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({
+          Message: "User doesn't Exists!"
+        })
+      }
+      return res.status(200).json({
+        name: user.name,
+        email: user.email,
+        phoneNo: user.phoneNo,
+        resumeLink: user.resumeLink
+      })
+    })
+    .catch((err) => {
+      console.log('Error:', err)
+      return res.status(400).json({
+        Error: err
+      })
+    })
 })
 
-router.get('/getAll', verify, (req, res) => {
-  if (req.user._id.equals(process.env.ADMIN)) {
-    User.find().then((infos) => {
-      res.status(200).json(infos)
-    })
-  } else {
+router.patch('/update', verify, (req, res) => {
+  if (!req.body.name || !req.body.phoneNo) {
     return res.status(400).json({
-      errorMessage: 'unauthorized access request'
+      errorMessage: 'Missing Required Params'
     })
   }
+
+  Employer.findOne({ email: req.user.email })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).json({
+          errorMessage: "User doesn't Exists!"
+        })
+      } else {
+        Employer.updateOne(
+          { email: req.user.email },
+          {
+            $set: {
+              name: req.body.name,
+              phoneNo: req.body.phoneNo
+            }
+          }
+        )
+          .then((update) => {
+            req.user.resumeLink = req.body.resumeLink
+            req.user.name = req.body.name
+            req.user.phoneNo = req.body.phoneNo
+            res.status(200).json({
+              message: 'Details updated Successfully!'
+            })
+          })
+          .catch((err) => {
+            console.log('Error:', err)
+          })
+      }
+    })
+    .catch((err) => {
+      console.log('Error:', err)
+    })
+})
+
+router.get('/logout', (req, res) => {
+  return res.status(200).json({
+    message: 'logged out'
+  })
 })
 
 module.exports = router

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const companySchema = new Schema({
+const employerSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -21,6 +21,6 @@ const companySchema = new Schema({
   }
 })
 
-const Company = mongoose.model('Employeers', companySchema)
+const Employer = mongoose.model('Employeers', employerSchema)
 
-module.exports = Company
+module.exports = Employer
