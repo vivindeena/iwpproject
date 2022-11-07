@@ -68,6 +68,8 @@ app.get('/', (req, res) => {
 app.use('/users', users)
 app.use('/company', company)
 
+app.use(express.static("public"))
+
 app.listen(PORT, () => {
   console.log('Server Started on port', PORT)
 })
