@@ -2,25 +2,6 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const bookSchema = new Schema({
-  companyId: {
-    type: String,
-    required: true
-  },
-  companyName: {
-    type: String,
-    required: true
-  },
-  slotId: {
-    type: String,
-    required: true
-  },
-  startTime: {
-    type: String,
-    required: true
-  }
-})
-
 const userSchema = new Schema({
   name: {
     type: String,
@@ -41,14 +22,10 @@ const userSchema = new Schema({
   resumeLink: {
     type: String,
     default: ''
-  },
-  approvalStatus: {
-    type: Boolean,
-    default: true
-  },
-  booked: [bookSchema]
-})
+  }
+  }
+)
 
-const User = mongoose.model('InternExpoUser', userSchema)
+const User = mongoose.model('JobSeekers', userSchema)
 
 module.exports = User

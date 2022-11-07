@@ -2,47 +2,25 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const slotSchema = new Schema({
-  startTime: {
-    type: String,
-    required: true
-  },
-  endTime: {
-    type: String,
-    required: true
-  },
-  bookedBy: {
-    type: Array
-  },
-  available: {
-    type: Number,
-    default: 5
-  },
-  total: {
-    type: Number,
-    default: 5
-  }
-})
-
 const companySchema = new Schema({
   name: {
     type: String,
     required: true
   },
-  description: {
+  password: {
     type: String,
     required: true
   },
-  tags: {
-    type: Array,
-    default: []
+  email: {
+    type: String,
+    required: true
   },
-  workFrom: {
-    type: String
-  },
-  slots: [slotSchema]
+  phoneNo: {
+    type: String,
+    required: true
+  }
 })
 
-const Company = mongoose.model('InternExpoCompany', companySchema)
+const Company = mongoose.model('Employeers', companySchema)
 
 module.exports = Company

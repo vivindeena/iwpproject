@@ -82,7 +82,6 @@ router.post('/otpVerify', (req, res) => {
                 const email = req.body.email
                 const phoneNo = req.body.phoneNo
                 const password = req.body.password
-
                 const newUser = new User({
                   name,
                   password,
@@ -369,7 +368,7 @@ let otp = 0
 
 async function login(emailId, requirement) {
   try {
-    const res = await Auth(emailId, 'Internship Expo by E-Summit VIT')
+    const res = await Auth(emailId, 'Job Portal')
     otp = res.OTP
     const current = new Date()
     let hours = current.getHours()
@@ -403,11 +402,6 @@ async function login(emailId, requirement) {
     console.log(error)
   }
 }
-
-
-
-
-
 
 router.get('/dashboard', verify, (req, res) => {
   return res.status(400).json({
@@ -573,140 +567,6 @@ router.get('/getAll', verify, (req, res) => {
     })
   }
 })
-
-router.post('/approvalToggle', verify, (req, res) => {
-  if (req.user._id.equals(process.env.ADMIN)) {
-    if (!req.body.userId) {
-      return res.status(400).json({
-        errorMessage: 'Missing Required Params'
-      })
-    }
-
-    User.findOne({ email: req.user.email })
-      .then((user) => {
-        if (!user) {
-          return res.status(400).json({
-            errorMessage: 'user doesnt exists. please login'
-          })
-        } else {
-          User.updateOne(
-            { _id: req.body.userId },
-            { $set: { approvalStatus: !user.approvalStatus } }
-          )
-            .then((update) => {
-              res.status(200).json({
-                message: 'details updated in db'
-              })
-            })
-            .catch((err) => {
-              console.log('Error:', err)
-            })
-        }
-      })
-      .catch((err) => {
-        console.log('Error:', err)
-      })
-  } else {
-    return res.status(400).json({
-      errorMessage: 'unauthorized access request'
-    })
-  }
-})
-
-router.delete('/removeApplied', verify, (req, res) => {
-  if (!req.body.companyId || !req.body.slotId) {
-    return res.status(400).json({
-      errorMessage: 'Missing Required Params'
-    })
-  }
-
-  User.findOne({ email: req.user.email })
-    .then((user) => {
-      if (user.booked.length == 0) {
-        return res.status(400).json({
-          errorMessage: 'Nothing to remove'
-        })
-      }
-
-      // if (user.approvalStatus) {
-      Company.findOne({ _id: req.body.companyId })
-        .then((company) => {
-          if (!company) {
-            return res.status(400).json({
-              errorMessage: "Company doesn't Exists!"
-            })
-          } else {
-            const slots = company.slots
-            for (let i = 0; i < slots.length; i++) {
-              if (slots[i]._id.equals(req.body.slotId)) {
-                for (let j = 0; j < slots[i].bookedBy.length; j++) {
-                  console.log(slots[i].bookedBy[j]._id)
-                  console.log(req.user._id)
-                  if (slots[i].bookedBy[j]._id === req.user._id) {
-                    slots[i].bookedBy.splice(j, 1)
-                    slots[i].available = slots[i].available + 1
-                  }
-                }
-                break
-              }
-            }
-
-            Company.updateOne(
-              { _id: req.body.companyId },
-              { $set: { slots: slots } }
-            )
-              .then((update) => {
-                User.findOne({ email: req.user.email })
-                  .then((user) => {
-                    if (!user) {
-                      return res.status(400).json({
-                        errorMessage: "User doesn't Exists!"
-                      })
-                    } else {
-                      const booked = user.booked
-                      for (let j = 0; j < booked.length; j++) {
-                        if (booked[j].slotId === req.body.slotId) {
-                          booked.splice(j, 1)
-                        }
-                      }
-
-                      User.updateOne(
-                        { email: req.user.email },
-                        { $set: { booked: booked } }
-                      )
-                        .then((update) => {
-                          res.status(200).json({
-                            message: 'Removed!'
-                          })
-                        })
-                        .catch((err) => {
-                          console.log('Error:', err)
-                        })
-                    }
-                  })
-                  .catch((err) => {
-                    console.log('Error:', err)
-                  })
-              })
-              .catch((err) => {
-                console.log('Error:', err)
-              })
-          }
-        })
-        .catch((err) => {
-          console.log('Error:', err)
-        })
-      // } else {
-      //   return res.status(400).json({
-      //     errorMessage: "approval status false",
-      //   });
-      // }
-    })
-    .catch((err) => {
-      console.log('Error:', err)
-    })
-})
-
 
 
 module.exports = router
