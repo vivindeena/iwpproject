@@ -4,6 +4,7 @@ const verify = require('./verifyToken')
 const { Auth } = require('two-step-auth')
 const jwt = require('jsonwebtoken')
 
+const User = require("../models/User")
 const Employer = require('../models/Employer')
 const Otp = require('../models/Otp')
 
@@ -14,24 +15,36 @@ router.post('/register', (req, res) => {
       errorMessage: 'Missing Required Params'
     })
   }
-
-  Employer.findOne({ email: req.body.email })
-    .then((user) => {
-      if (user) {
-        return res.status(400).json({
-          errorMessage: 'User Already Exists'
-        })
-      } else {
-        login(req.body.email, "registration")
-        return res.status(200).json({
-          otpSentStatus: 'success',
-          message: 'call otp verification endpoint'
-        })
-      }
+  User.findOne({ email: req.body.email })
+  .then((user)=>{
+    if (user)
+    return res.status(400).json({
+      errorMessage: 'E-mail already in use'
     })
-    .catch((err) => {
-      console.log('Error:', err)
-    })
+    else{
+      Employer.findOne({ email: req.body.email })
+        .then((user) => {
+          if (user) {
+            return res.status(400).json({
+              errorMessage: 'User Already Exists'
+            })
+          } else {
+            login(req.body.email, "registration")
+            return res.status(200).json({
+              otpSentStatus: 'success',
+              message: 'call otp verification endpoint'
+            })
+          }
+        })
+        .catch((err) => {
+          console.log('Error:', err)
+        })
+    }
+  })
+  .catch((err)=>{
+    console.log("Error: ", err)
+  })
+  
 })
 
 router.post('/otpVerify', (req, res) => {

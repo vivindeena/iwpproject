@@ -1,11 +1,20 @@
-Skills Required:
-            <input type="text" id="skills" placeholder="Skills" required autofocus name="skills"><br><br>
-            <!DOCTYPE html>
-            <html>
-                <head>
+<!DOCTYPE html>
+    <html>
+        <head>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
                     <title>Job Seeker Profile</title>
                 </head>
                 <body>
+                    <h1 align="center"></h1><b>Post Jobs</b></h1>
+                    <div class="container">
+                        <div class="jumbotron">
+                            <style>
+                                .jumbotron{
+                                    background-color:rgb(144, 206, 242);
+                                }
+                            </style>
                 <form>
                     Employer Name:
                     <input type="text" id="empName" placeholder="Name" required autofocus name="empName"><br><br>
@@ -27,11 +36,13 @@ Skills Required:
                     <input type="number" id="sal" placeholder="200000" required autofocus name="salary"><br><br>
                     Domain:
                     <input type="text" id="domain" placeholder="Domain" required autofocus name="domain"><br><br>
-                    Job Description:
-                    <textarea rows="4" cols="50" id="desc"></textarea>
+                    Job Description:<br>
+                    <textarea rows="4" cols="50" id="desc"></textarea><br><br>
                     Last Date:
                     <input type="date" id="ld" placeholder="dd-mm-yyyy" required autofocus name="lastDate"><br><br>
                     <button type="submit">Post</button>
                     </form>
+                    </div>
+                </div>
                 </body>
             </html>

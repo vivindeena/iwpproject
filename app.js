@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const users = require('./routes/users')
 const employer = require('./routes/employer')
+const jobby = require('./routes/jobs')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const passport = require('passport')
@@ -58,18 +59,17 @@ app.use((req, res, next) => {
 
 app.use(cors())
 
-app.get('/', (req, res) => {
-  res.status(200).json({
-    document: 'Job Search',
-    message: 'refer docs'
-  })
-})
-
+app.use('/jobs',jobby)
 app.use('/users', users)
 app.use('/employer', employer)
+
 
 app.use(express.static("public"))
 
 app.listen(PORT, () => {
   console.log('Server Started on port', PORT)
+})
+
+app.get('/', (req, res) => {
+  res.sendFile("/public/index.html")
 })

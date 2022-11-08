@@ -11,6 +11,10 @@ const jobSchema = new Schema({
         type: String,
         required: true
     },
+    postedBy: {
+        type: String,
+        required: true
+    },
     feild: {
         type: String,
         required: true
@@ -24,17 +28,17 @@ const jobSchema = new Schema({
         required: true
     },
     salary: {
-        type: number,
-        required: true;
+        type: Number,
+        required: true
     },
     yearsOfExperience: {
         type: Number,
         required: true
     },
     skills:{
-        type: Array,
-        default: []
-    }
+        type: String,
+        required: true
+    },
     currentApplication: {
         type: Array,
         default: []
@@ -43,4 +47,4 @@ const jobSchema = new Schema({
 
 const Jobs = mongoose.model("Jobs", jobSchema)
 
-module.export = Jobs
+module.exports = Jobs

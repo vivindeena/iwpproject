@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <title>Job Seeker Profile</title>
     </head>
     <body>
+        <h1 align="center"><b>Register</b></h1>
+        <div class="container">
+            <div class="jumbotron">
+                <style>
+                    .jumbotron{
+                        background-color:rgb(144, 206, 242);
+                    }
+                </style>
+        <p>Register as a job seeker and get aceess to more than 10,000 jobs in your field and according to your interest. Register now to unlock your career!</p>
         <form method="post">
             Name:
             <input type="text" id="inputName" placeholder="Name" required autofocus name="name"><br><br>
-            Username:
-            <input type="text" id="inputun" placeholder="Username" required autofocus name="un"><br><br>
             Email:
             <input type="email" id="inputEmail" placeholder="xyz@gmail.com" required autofocus name="email"><br><br>
             Phone:
             <input type="tel" id="inputPhone" placeholder="91-xxxxxxxxxx" required autofocus name="phone"><br><br>
-            Date of Birth:
-            <input type="date" id="inputDOB" placeholder="dd-mm-yyyy" required autofocus name="dob"><br><br>
             Experience(in years):
             <input type="number" id="inputExp" placeholder="Experience" required autofocus name="exp"><br><br>
             Field:
@@ -24,6 +32,9 @@
             Resume Link:
             <input type="text" id="inputResume" placeholder="URL" required autofocus name="resume"><br><br>
             <button type="submit">Register</button>
+            </form>
+        </div>
+        </div>
         </form>
     </body>
 </html>

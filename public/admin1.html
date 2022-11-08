@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <title>Admin Dashboard</title>
     </head>
     <body>
-        <h3>Welcome Admin!</h3>
-        <h4>Delete Employer</h4>
+        <div class="container">
+            <div class="jumbotron">
+        <h3><b>Welcome Admin!</b></h3><br>
+        <h4><b>Delete Employer</b></h4>
         <form name="f1" action="" method="post">
             Enter the mail id of employer:
             <input type="email" name="del_emp" id="del_emp">
             <button type="button" onclick="deleteEmployer()">Delete</button>
-        </form>
-        <h4>Delete Job Seeker</h4>
+        </form><br>
+        <h4><b>Delete Job Seeker</b></h4>
         <form name="f1" action="" method="post">
             Enter the mail id:
             <input type="email" name="del_emp" id="del_emp">
             <button type="button" onclick="deleteJobSeeker()">Delete</button>
-        </form>
+        </form><br>
         <h4>Feedbacks</h4>
         <li> </li>
         <li></li>
         <li></li>
         <li></li>
+    </div>
+    </div>
     </body>
 </html>

@@ -3,9 +3,9 @@ const bcrypt = require('bcryptjs')
 const verify = require('./verifyToken')
 const { Auth } = require('two-step-auth')
 const jwt = require('jsonwebtoken')
-
 const User = require('../models/User')
 const Otp = require('../models/Otp')
+const Employer = require("../models/Employer")
 
 // @TODO Add recaptcha middleware
 router.post('/register', (req, res) => {
