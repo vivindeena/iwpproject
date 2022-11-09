@@ -146,11 +146,14 @@ router.post("/createListing", verify, (req,res)=>{
         })
 }) // Tested
 
-router.get("/getApplicants:id", verify, (req,res)=>{
+router.post("/getApplicants", verify, (req,res)=>{
+    if (!req.body.email || !req.body.jobID) {
+        res.status(400).json({
+            errorMessage: 'Missing Required Params'
+        })
+    }
     
-    // Check if Job ID exists
-    // Check for email matching with posted email
-
+    console.log("ehh")
 })
 
 module.exports = router

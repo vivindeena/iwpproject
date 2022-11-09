@@ -1,27 +1,29 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <title> Job Portal </title>
-    </head>
-<body> 
-    
-<nav class="navbar" id="insidenav">
-  <div class="container-fluid">
-      <div class="navbar-header">
-          <a class="navbar-brand" href="#">Job Portal</a>
-      </div>
+    <title> Job Portal </title>
+</head>
 
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#main1">Home</a></li>
-      <li><a  href="#jobseeker">Job Seeker</a></li>
-      <li><a  href="#employers">Employer</a></li>
-      <li><a href="#contact">Contact Us</a></li>
-    </ul>
+<body>
 
-    <ul class="nav navbar-nav navbar-right">
+    <nav class="navbar" id="insidenav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Job Portal</a>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#main1">Home</a></li>
+                <li><a href="#jobseeker">Job Seeker</a></li>
+                <li><a href="#employers">Employer</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="glyphicon glyphicon-user"></span> Register <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -31,129 +33,84 @@
                     </ul>
                 </li>
                 <li><a href="login1.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
-  </div>
-</nav>
-    
+            </ul>
+        </div>
+    </nav>
+    <div class="bmsTop">
+        <ul>
+            <h2 style="font-size: 20px; font-weight: bold">Top Recruiters:</h2>
+            <ul id="myUL">
+                <li><a href="#">Amazon</a></li>
+                <li><a href="#">Google</a></li>
 
+                <li><a href="#">TCS</a></li>
+                <li><a href="#">Coding Ninja</a></li>
 
-
-<script>
-function myFunction() {
-    var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
-        }
-    }
-}
-</script> 
-<div class="bmsTop">
-    <ul>
-        <h2 style="font-size: 20px; font-weight: bold">Top Recruiters:</h2>
-        <ul id="myUL">
-            <li><a href="#">Amazon</a></li>
-            <li><a href="#">Google</a></li>
-          
-            <li><a href="#">TCS</a></li>
-            <li><a href="#">Coding Ninja</a></li>
-          
-            <li><a href="#">DeShaw</a></li>
-            <li><a href="#">Morgan Stanley</a></li>
-            <li><a href="#">Microsoft</a></li>
-          </ul>
-    </ul>
-</div>
-<h3 style=" font-weight: bold">Search for Jobs</h3>
-<div class="container-fluid" id="main1"> <!-- jumbotron fluid -->
-<div class="jumbotron text-center" id="searchjum">
-<h2>Job Portal</h2>
-    <p>Job Skills</p>
-    <form class="form-inline" id="homesearch">
-        <input type="text" class="form-control" size="50" placeholder="Enter your search keyword" name="keyword" id="keyword">
-        <button type="button" onclick="search()" class="btn btn-lg " style="color: black"><span class="glyphicon glyphicon-search"></span> Search</button>
-    </form>
-</div>
-</div>
-
-<div class="container-fluid" id="main1"> <!-- jumbotron fluid -->
-    <div class="jumbotron text-center" id="searchjum">
-        <p>Location</p>
-        <form class="form-inline" id="homesearch">
-            <input type="text" class="form-control" size="50" placeholder="Enter your search keyword" name="keyword1" id="keyword1">
-            <button type="button" onclick="search()" class="btn btn-lg " style="color: black"><span class="glyphicon glyphicon-search"></span> Search</button>
-        </form>
+                <li><a href="#">DeShaw</a></li>
+                <li><a href="#">Morgan Stanley</a></li>
+                <li><a href="#">Microsoft</a></li>
+            </ul>
+        </ul>
     </div>
-    </div>
-
-    <div class="container-fluid" id="main1"> <!-- jumbotron fluid -->
+    <h3 style=" font-weight: bold">Search for Jobs</h3>
+    <div class="container-fluid" id="main1">
+        <!-- jumbotron fluid -->
         <div class="jumbotron text-center" id="searchjum">
-            <p>Job Title</p>
+            <h2>Job Portal</h2>
+            <p>Search By Skill, Location, Salary and More</p>
             <form class="form-inline" id="homesearch">
-                <input type="text" class="form-control" size="50" placeholder="Enter your search keyword" name="keyword2" id="keyword2">
-                <button type="button" onclick="search()" class="btn btn-lg " style="color: black"><span class="glyphicon glyphicon-search"></span> Search</button>
+                <input type="text" class="form-control" size="50" placeholder="Enter your search keyword" name="keyword"
+                    id="keyword">
+                <button type="button" onclick="" class="btn btn-lg " style="color: black"><span
+                        class="glyphicon glyphicon-search"></span> Search</button>
             </form>
         </div>
-        </div>
-        <div class="container-fluid" id="main1"> <!-- jumbotron fluid -->
-            <div class="jumbotron text-center" id="searchjum">
-                <p>Experience</p>
-                <form class="form-inline" id="homesearch">
-                    <input type="text" class="form-control" size="50" placeholder="Enter your search keyword" name="keyword3" id="keyword3">
-                    <button type="button" onclick="search()" class="btn btn-lg " style="color: black"><span class="glyphicon glyphicon-search"></span> Search</button>
-                </form>
-            </div>
-            </div>
-    
+    </div>
 
-<div class="container" id="subcontent" style="background: transparent">
-    <!-- div for search contents -->
-</div>
-<div class="page-header" style="background:#1abc9c"></div>
-<div class="container-fluid" style="background: transparent">
-    <div class="text-center">
-        <h2>Register</h2>
-        <h4>Register in this website for a better experience</h4>
+    <div class="container" id="subcontent" style="background: transparent">
+        <!-- div for search contents -->
     </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="panel panel-default text-center">
-                <div class="panel-heading">
-                    <h1 id="employers">Employers</h1>
-                </div >
-                <div class="panel-body">
-                    <p style="font-size: 16px">Register today and post a job in easy steps and start receiving applications the same day.
-                        Find the right candidates easily and quickly through our Search feature.</p>
+    <div class="page-header" style="background:#1abc9c"></div>
+    <div class="container-fluid" style="background: transparent">
+        <div class="text-center">
+            <h2>Register</h2>
+            <h4>Register in this website for a better experience</h4>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-default text-center">
+                    <div class="panel-heading">
+                        <h1 id="employers">Employers</h1>
+                    </div>
+                    <div class="panel-body">
+                        <p style="font-size: 16px">Register today and post a job in easy steps and start receiving
+                            applications the same day.
+                            Find the right candidates easily and quickly through our Search feature.</p>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="emp_register.html" style="color: inherit"> <button class="btn btn-lg">Sign
+                                Up</button></a>
+                    </div>
                 </div>
-                <div class="panel-footer">
-                   <a href="emp_register.html" style="color: inherit"> <button class="btn btn-lg">Sign Up</button></a>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default text-center">
+                    <div class="panel-heading">
+                        <h1 id="jobseeker">Job Seekers</h1>
+                    </div>
+                    <div class="panel-body">
+                        <p style="font-size: 16px">Helps passive and active jobseekers find better jobs. Get connected
+                            with over 10000 recruiters.
+                            Apply to jobs in just one click. Apply to thousands of jobs posted daily.</p>
+                    </div>
+                    <div class="panel-footer">
+                        <a href="js_register.html" style="color: inherit"><button class="btn btn-lg">Sign
+                                Up</button></a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="panel panel-default text-center">
-                <div class="panel-heading">
-                    <h1 id="jobseeker">Job Seekers</h1>
-                </div>
-                <div class="panel-body">
-                    <p style="font-size: 16px">Helps passive and active jobseekers find better jobs. Get connected with over 10000 recruiters.
-                        Apply to jobs in just one click. Apply to thousands of jobs posted daily.</p>
-                </div>
-                <div class="panel-footer">
-                    <a href="js_register.html" style="color: inherit"><button class="btn btn-lg">Sign Up</button></a>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
 
 
     <div class="container bg-grey" id="contact">
@@ -177,7 +134,8 @@ function myFunction() {
                         <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
                     </div>
                 </div>
-                <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+                <textarea class="form-control" id="comments" name="comments" placeholder="Comment"
+                    rows="5"></textarea><br>
                 <div class="row">
                     <div class="col-sm-12 form-group">
                         <button class="btn btn-default pull-right" type="submit">Send</button>
@@ -187,43 +145,38 @@ function myFunction() {
         </div>
     </div> <!-- Contact -->
 
-</div> <!-- sub content -->
- <div class="page-header" style="background: #f4511e"></div>
-</div> <!-- Container -->
-<!-- Set height and width with CSS -->
-<div id="googleMap" style="height:400px;width:100%;"></div>
+    </div> <!-- sub content -->
+    <div class="page-header" style="background: #f4511e"></div>
+    </div> <!-- Container -->
+    <!-- Set height and width with CSS -->
+    <div id="googleMap" style="height:400px;width:100%;"></div>
 
-<!-- Add Google Maps -->
-<script src="http://maps.googleapis.com/maps/api/js"></script>
-<script>
-    var myCenter = new google.maps.LatLng(11.2680519,75.7891479);
+    <!-- Add Google Maps -->
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script>
+        var myCenter = new google.maps.LatLng(11.2680519, 75.7891479);
 
-    function initialize() {
-        var mapProp = {
-            center:myCenter,
-            zoom:12,
-            scrollwheel:false,
-            draggable:false,
-            mapTypeId:google.maps.MapTypeId.ROADMAP
-        };
+        function initialize() {
+            var mapProp = {
+                center: myCenter,
+                zoom: 12,
+                scrollwheel: false,
+                draggable: false,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
 
-        var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 
-        var marker = new google.maps.Marker({
-            position:myCenter,
-        });
+            var marker = new google.maps.Marker({
+                position: myCenter,
+            });
 
-        marker.setMap(map);
-    }
+            marker.setMap(map);
+        }
 
-    google.maps.event.addDomListener(window, 'load', initialize);
-</script>
-<footer class="container-fluid text-center">
-    <a href="#insidenav" title="To Top">
-        <span class="glyphicon glyphicon-chevron-up"></span>
-    </a>
-    <p>Job Portal</p>
-</footer>
-</body> 
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 </body>
+</body>
+
 </html>
