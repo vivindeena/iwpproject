@@ -255,7 +255,6 @@ router.patch('/updatePassword', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  // CHECKING IF EMAIL EXISTS
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
@@ -263,35 +262,38 @@ router.post('/login', (req, res) => {
       }
 
       // CHECKING IF PASSWORD IS CORRECT
-      const validPass = bcrypt.compare(req.body.password, user.password)
+      bcrypt.compare(req.body.password, user.password)
+        .then((result) => {
 
-      if (!validPass) {
-        return res.status(400).send('Invalid Password or Email')
-      }
+          if (!validPass) {
+            return res.status(400).send('Invalid Password or Email')
+          }
 
-      // CREATE AND ASSIGN A TOKEN
-      const token = jwt.sign(
-        {
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          phoneNo: user.phoneNo,
-          resumeLink: user.resumeLink,
-          booked: user.booked,
-          approvalStatus: user.approvalStatus
-        },
-        process.env.TOKEN_SECRET
-      )
-      res.status(200).json({
-        success: true,
-        message: 'Authentication Successful!',
-        token: token
-      })
+          // CREATE AND ASSIGN A TOKEN
+          const token = jwt.sign(
+            {
+              _id: user._id,
+              name: user.name,
+              email: user.email,
+              phoneNo: user.phoneNo,
+              resumeLink: user.resumeLink,
+              booked: user.booked,
+              approvalStatus: user.approvalStatus
+            },
+            process.env.TOKEN_SECRET
+          )
+          res.status(200).json({
+            success: true,
+            message: 'Authentication Successful!',
+            token: token
+          })
+        })
+
     })
     .catch((err) => {
       console.log('Error:', err)
     })
-})
+});
 
 router.get('/profile', verify, (req, res) => {
   User.findOne({ email: req.user.email })

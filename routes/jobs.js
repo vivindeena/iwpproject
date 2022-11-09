@@ -13,40 +13,35 @@ const Job = require('../models/Jobs')
 //assuming search has 4 filters
 //title=&location=&skills=&yoe
 
-router.get('/search', verify, (req, res) => {
-    par = req.query;
+router.get('/search', (req, res) => {
+    param1 = req.query.p1;
+    param2 = req.query.p2;
 
-    flag = 0;
-    mongoQuery = '';
-    params.forEach((value, key) => {
-        if (flag != 0) mongoQuery += ',';
-        console.log(key, value);
-        if (isNaN(`${value}`)) value = `"${value}"`;
-        mongoQuery += `{ "${key}": ${value} }`;
-        flag = 1;
-    });
-
-    condition = 'and';
-    pre = `{ "$${condition}": [ `;
-    post = ']}';
-    mongoQuery = pre + mongoQuery + post;
-    mongoQueryJSON = JSON.parse(mongoQuery);
-    if (!req.body.title || !req.body.location || !req.body.skill || !req.yoe) {
-        return res.status(400).json({
+    if (!param1 || !param2) {
+        res.status(400).json({
             errorMessage: 'Missing Required Params'
         })
     } else {
-        Jobs.find(mongoQueryJSON)
-            .then((job) => {
-                res.status(200).json(job)
-            })
+        switch (param2) {
+            case 'location':
+                Job.find({ location: param1 })
+                    .then((data) => { res.status(200).json(data) })
+                    .catch((err) => { res.status(400).json({ error: "error" }) })
+                break;
+            case 'title':
+                Job.find({ title: param1 })
+                    .then((data) => { res.status(200).json(data) })
+                    .catch((err) => { res.status(400).json({ error: "error" }) })
+                break;
+            //ctrlc+v and change the fields you want to filter against as you like
+        }
     }
-}) // waiting to test
+})
 
 router.post("/apply",verify,(req,res)=>{
-    if(!req.body.email || ! req.body.jobID){
+    if(!req.body.email |!req.query.id){
         res.status(400).json({
-            errorMessage: 'Missing Required Params'+req.body.email+" "+req.body.jobID
+            errorMessage: 'Missing Required Params'+req.body.email+" "+req.query.jobID
         })
     }
     User.findOne({email: req.body.email})
@@ -56,7 +51,7 @@ router.post("/apply",verify,(req,res)=>{
                     errorMessage: "Given user not an User"
                 })
             }else {
-                Job.findById(req.body.jobID)
+                Job.findById(req.query.jobID)
                     .then((jobs)=>{
                         console.log(jobs)
                         if(!jobs){
@@ -65,7 +60,7 @@ router.post("/apply",verify,(req,res)=>{
                             })
                         } else{
                             Job.updateOne(
-                                { _id: req.body.jobID },
+                                { _id: req.query.jobID },
                                 {
                                     $push: {
                                         currentApplication: req.body.email

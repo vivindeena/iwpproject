@@ -8,8 +8,47 @@
     </head>
     <body>
         <h3>Welcome</h3><br>
-        <button type="button" onclick="viewProfile()">View Profile</button>
-        
+        Click <a href="/postJobs.html">here</a> to create a listing
+        <br><br>
+        Your Listing
+        <ul id="listings">
+            <li></li>
+        </ul>
+        <button onclick="logout()"></button>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            function logout(){
+                window.localStorage.removeItem("JWT");
+                window.location.href="./login1.html"
+            }
+            const listing = document.getElementById("listing");
+            let config = {
+                    headers: {
+                        "auth-token": window.localStorage.getItem("JWT")
+                    }
+                }
+                console.log(config);
+            axios.get("/employer/profile",config)
+            .then((user)=>{
+                axios.get(`/employer/listing?email=${user.data.email}`, config)
+                .then((list)=>{
+                    arr = list.data.listings
+                    arr.forEach(element => {
+                        let li = document.createElement("li");
+                        let a = document.createElement("a");
+                        a.setAttribute("href","/viewApplication.html?")
+                        li.append(a)
+                        listing.append(li)
+                    });
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+            
+        </script>
     </body>
 
 </html>

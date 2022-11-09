@@ -18,6 +18,10 @@ const employerSchema = new Schema({
   phoneNo: {
     type: String,
     required: true
+  },
+  listings: {
+    type: Array,
+    default: []
   }
 })
 

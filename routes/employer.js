@@ -276,34 +276,36 @@ router.post('/login', (req, res) => {
       }
 
       // CHECKING IF PASSWORD IS CORRECT
-      const validPass = bcrypt.compare(req.body.password, user.password)
+      bcrypt.compare(req.body.password, user.password)
+        .then((err)=>{
+          if (!err) {
+            return res.status(400).send('Invalid Password or Email')
+          }
+          else{
 
-      if (!validPass) {
-        return res.status(400).send('Invalid Password or Email')
-      }
-
-      // CREATE AND ASSIGN A TOKEN
-      const token = jwt.sign(
-        {
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          phoneNo: user.phoneNo,
-          resumeLink: user.resumeLink,
-          booked: user.booked,
-          approvalStatus: user.approvalStatus
-        },
-        process.env.TOKEN_SECRET
-      )
-      res.status(200).json({
-        success: true,
-        message: 'Authentication Successful!',
-        token: token
+          }
+          const token = jwt.sign(
+            {
+              _id: user._id,
+              name: user.name,
+              email: user.email,
+              phoneNo: user.phoneNo,
+              resumeLink: user.resumeLink,
+              booked: user.booked,
+              approvalStatus: user.approvalStatus
+            },
+            process.env.TOKEN_SECRET
+          )
+          res.status(200).json({
+            success: true,
+            message: 'Authentication Successful!',
+            token: token
+          })
+        })
+        .catch((err) => {
+          console.log('Error:', err)
+        })
       })
-    })
-    .catch((err) => {
-      console.log('Error:', err)
-    })
 })
 async function login(emailId, requirement) {
   try {
@@ -412,4 +414,26 @@ router.get('/logout', (req, res) => {
   })
 })
 
+router.get("/listing",verify,(req,res)=>{
+  if(!req.query.email){
+    return res.status(400).json({
+      errorMessage: 'Missing Required Params'
+    })
+  }
+  Employer.findOne({email: req.query.email})
+  .then((user)=>{
+    if(!user){
+      return res.status(400).json({
+        errorMessage: "User doesn't Exists!"
+      })
+    }else{
+      return res.status(200).json({
+        "listings": user.listings
+      })
+    }
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+})
 module.exports = router
