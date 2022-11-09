@@ -265,34 +265,39 @@ router.post('/login', (req, res) => {
       bcrypt.compare(req.body.password, user.password)
         .then((result) => {
 
-          if (!validPass) {
+          if (!result) {
             return res.status(400).send('Invalid Password or Email')
           }
-
+          else{
+            const token = jwt.sign(
+              {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                phoneNo: user.phoneNo,
+                resumeLink: user.resumeLink,
+                booked: user.booked,
+                approvalStatus: user.approvalStatus
+              },
+              process.env.TOKEN_SECRET
+            )
+            res.status(200).json({
+              success: true,
+              message: 'Authentication Successful!',
+              token: token
+            })
+          }
           // CREATE AND ASSIGN A TOKEN
-          const token = jwt.sign(
-            {
-              _id: user._id,
-              name: user.name,
-              email: user.email,
-              phoneNo: user.phoneNo,
-              resumeLink: user.resumeLink,
-              booked: user.booked,
-              approvalStatus: user.approvalStatus
-            },
-            process.env.TOKEN_SECRET
-          )
-          res.status(200).json({
-            success: true,
-            message: 'Authentication Successful!',
-            token: token
-          })
+        })
+        .catch((err)=>{
+          console.log(err)
         })
 
     })
     .catch((err) => {
       console.log('Error:', err)
     })
+
 });
 
 router.get('/profile', verify, (req, res) => {

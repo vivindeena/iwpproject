@@ -11,8 +11,8 @@
         <form class="form-signin" method="post">
             <h2 align="center">Please sign in</h2>
                 <label>Sign up as:</label><br>
-                <input type="radio" name="usertype" id="employer" required>Employer
-                <input type="radio" name="usertype" required>Job Seeker
+                <input type="radio" name="usertype" id="employer" value="employer" required>Employer
+                <input type="radio" name="usertype" value="users" required>Job Seeker
                 <br><br>
                 <span class="error" id="loginerror"></span>
                 <br><br>
@@ -30,13 +30,18 @@
             const form = document.querySelector("form");
             form.addEventListener("submit",(e)=>{
                 e.preventDefault();
-                axios.post(`/${document.querySelector('input[name = "rate"]: checked').value }/login`, {
+                usertype = document.querySelector('input[name="usertype"]:checked').value
+                axios.post(`/${usertype}/login`, {
                     "email": form.children.inputEmail.value,
                     "password": form.children.inputPassword.value,
                 }).then((data) => {
                     console.log(data.data.token);
                     window.localStorage.setItem("JWT",data.data.token)
-                    window.location.href = './employer.html'
+                    if(usertype === "employer"){
+                        window.location.href = './employer.html'
+                    }else{
+                        window.location.href= "./"
+                    }
 
                 }).catch((err) => {
                     console.log(err)
