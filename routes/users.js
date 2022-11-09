@@ -402,16 +402,7 @@ async function login(emailId, requirement) {
   }
 }
 
-router.get('/test', (req, res) => {
-  const current = new Date()
-  let hours = current.getHours()
-  body = current.getMinutes().toString()
-  if(body.length == 1)
-    body="0"+body
-  return res.status(200).json({
-    message: body
-  })
-})
+
 
 router.get('/getAll', verify, (req, res) => {
   if (req.user._id.equals(process.env.ADMIN)) {

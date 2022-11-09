@@ -79,16 +79,13 @@
                     console.log(err)
                 })
             }
-            //submit data
         })
         function startUserCreation() {
             const email = document.getElementById("empEmail");
             const emailerror = document.getElementById("emailerror");
-            const otp = 
             axios.post('/employer/register',{
                 "email": email.value
             }).then((res) => {
-                console.log(res);
                 emailerror.classList.remove('error');
                 emailerror.innerHTML = "&nbsp;&nbsp;&nbsp;OTP has been sent, please enter otp in the feild below";
                 email.style.borderColor = 'rgb(133, 133, 133)'
