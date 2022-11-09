@@ -23,7 +23,7 @@
             </style>
             <p>Register as an employer and find the most suitable candidate for the job role. Right here!</p>
             <form method="post">
-
+                <center><span id="success"></span></center>
                 Employer Name:
                 <input type="text" id="empName" placeholder="Name" required autofocus>
                 <br><br>
@@ -60,7 +60,7 @@
             e.preventDefault()
             const pswdMatch = document.getElementById("passwordmatch");
             if(form.children.pass.value !== form.children.cpass.value){
-                pswdMatch.innerHTML = "& nbsp;& nbsp;& nbsp; Passwords dont match try again"
+                pswdMatch.innerHTML = "&nbsp;& nbsp;& nbsp; Passwords dont match try again"
                 form.children.pass.focus();
             }else{
                 pswdMatch.innerHTML = null
@@ -70,6 +70,13 @@
                     "password": form.children.pass.value,
                     "phoneNo": form.children.inputPhone.value,
                     "otp": form.children.otp.value
+                }).then((data)=>{
+                    document.getElementById("success").innerHTML = "User Registered Successfully"
+                    setTimeout(()=>{
+                        window.location.href = './login1.html'
+                    },500)
+                }).catch((err)=>{
+                    console.log(err)
                 })
             }
             //submit data
@@ -90,7 +97,7 @@
             }).catch((err)=>{
                 console.log('Error: ',err)
                 emailerror.classList.add("error");
-                emailerror.innerText += err.response.data.errorMessage;
+                emailerror.innerHTML = `&nbsp;&nbsp;&nbsp; ${err.response.data.errorMessage}`;
                 email.style.borderColor = 'red'
             })
         }
