@@ -38,9 +38,9 @@
                     console.log(data.data.token);
                     window.localStorage.setItem("JWT",data.data.token)
                     if(usertype === "employer"){
-                        window.location.href = './employer.html'
+                        window.location.href = '../employer.html'
                     }else{
-                        window.location.href= "./"
+                        window.location.href= "../"
                     }
 
                 }).catch((err) => {
