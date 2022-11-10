@@ -47,7 +47,7 @@
             let d1 = new Date(form.children.ld.value);
             let d2 = new Date();
 
-            let diff = d2.getTime() - d1.getTime();
+            let diff = d1.getTime() - d2.getTime();
             if(diff<=0){
                 document.getElementById("dateerror").innerHTML= "Please enter a valid date in the future"
             }else{
@@ -62,28 +62,29 @@
                 .then((profile=>{
                     console.log(profile)
                     email = profile.data.email
+                    axios.post("/jobs/createListing", {
+                        "jobTitle": form.children.jobTitle.value,
+                        "jobDesc": form.children.desc.value,
+                        "jobField": form.children.domain.value,
+                        "jobLocation": form.children.inputLoc.value,
+                        "jobsDaysToExpiration": daydiff,
+                        "jobSalary": form.children.sal.value,
+                        "jobSkills": form.children.skills.value,
+                        "posterEmail": email
+                    }, config)
+                        .then(() => {
+                            document.getElementById("success").innerHTML = "Job Added Successfully"
+                            setTimeout(() => {
+                                window.location.href = './employer.html'
+                            }, 500)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                 })).catch((err)=>{
                     console.log(err)
                 })
-                axios.post("/jobs/createListing",{
-                    "jobTitle": form.children.jobTitle.value,
-                    "jobDesc": form.children.desc.value,
-                    "jobField": form.children.empField.value,
-                    "jobLocation": form.children.inputLoc.value,
-                    "jobsDaysToExpiration": daydiff,
-                    "jobSalary": form.children.sal.value,
-                    "jobSkills": form.children.skills.value,
-                    "posterEmail": email
-                })
-                .then(()=>{
-                    document.getElementById("success").innerHTML = "Job Added Successfully"
-                    setTimeout(() => {
-                        window.location.href = './employer.html'
-                    }, 500)
-                })
-                .catch((err)=>{
-                    console.log(err)
-                })
+                
             }
         })
     </script>

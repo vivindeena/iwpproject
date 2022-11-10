@@ -48,8 +48,8 @@
                 e.preventDefault();
                 usertype = document.querySelector('input[name="usertype"]:checked').value
                 axios.post(`/${usertype}/login`, {
-                    "email": form.children.inputEmail.value,
-                    "password": form.children.inputPassword.value,
+                    "email": document.getElementById("inputEmail").value,
+                    "password": document.getElementById("inputPassword").value,
                 }).then((data) => {
                     console.log(data.data.token);
                     window.localStorage.setItem("JWT",data.data.token)
