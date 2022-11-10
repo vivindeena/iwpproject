@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <link rel="stylesheet" href="login.css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <title>Login</title>
     </head>
     <body>
-        <h1 align="center">Login</h1>
-        <form class="form-signin" method="post">
-            <h2 align="center">Please sign in</h2>
-                <label>Sign up as:</label><br>
-                <input type="radio" name="usertype" id="employer" value="employer" required>Employer
-                <input type="radio" name="usertype" value="users" required>Job Seeker
-                <br><br>
-                <span class="error" id="loginerror"></span>
-                <br><br>
-                <label>Email address:</label>
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus  style="width: 30%"><br><br>
-                <label>Password:</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required autofocus style="width: 30%"><br>
-                <a href="./forgotPassword.html">Forgot Password?</a>
-                <br>
-                <button type="submit">Sign in</button>
-            </form>
+        <div class="sidenav">
+            <div class="login-main-text">
+               <h2>Job Portal<br> Login Page</h2>
+               <p>Login or register from here to access.</p>
+            </div>
+         </div>
+         <div class="main">
+            <div class="col-md-6 col-sm-12">
+               <div class="login-form">
+                  <form>
+                     <div class="form-group">
+                        <label>Sign up as:</label><br>
+                        <input type="radio" name="usertype" id="employer" value="employer" required><label></label>Employer
+                        <input type="radio" name="usertype" value="users" required>Job Seeker
+                        <span class="error" id="loginerror"></span>
+                     </div>
+                     <div class="form-group">
+                        <label>Email address:</label>
+                        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+                     </div>
+                     <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required><br>
+                        <a href="./forgotPassword.html">Forgot Password?</a>
+                     </div>
+                     <button type="submit" class="btn btn-black">Login</button>
+                     <button type="submit" class="btn btn-secondary">Register</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+        
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script>
@@ -38,9 +54,9 @@
                     console.log(data.data.token);
                     window.localStorage.setItem("JWT",data.data.token)
                     if(usertype === "employer"){
-                        window.location.href = '../employer.html'
+                        window.location.href = './employer.html'
                     }else{
-                        window.location.href= "../"
+                        window.location.href= "./"
                     }
 
                 }).catch((err) => {

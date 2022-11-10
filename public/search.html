@@ -23,8 +23,8 @@
                 <li><a href="#contact">Contact Us</a></li>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right" >
-                <li class="dropdown login-item"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="glyphicon glyphicon-user"></span> Register <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="js_register.html">Jobseeker</a></li>
@@ -32,8 +32,7 @@
                         <li><a href="emp_register.html">Employer</a></li>
                     </ul>
                 </li>
-                <li class="login-item"><a href="login1.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                <li class="logout-item hidden"><a href=""></a><span  class="">Vivin</span><button id="logout" onclick="logout()">Logout</button></li>
+                <li><a href="login1.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             </ul>
         </div>
     </nav>
@@ -59,11 +58,12 @@
         <div class="jumbotron text-center" id="searchjum">
             <h2>Job Portal</h2>
             <p>Search By Skill, Location, Salary and More</p>
-            <form class="form-inline" id="homesearch">
-                <input type="text" class="form-control" size="50" placeholder="Enter your search keyword" name="keyword"
-                    id="keyword">
-                <button type="button" onclick="" class="btn btn-lg " style="color: black"><span
-                        class="glyphicon glyphicon-search"></span> Search</button>
+            <form class="form-inline" id="homesearch" method="GET" action="">
+                <input type="text" class="form-control" size="50" placeholder="Enter your search keyword" name="keyword" id="keyword">
+                <input type="text" class="form-control2" size="50" placeholder="Location, Title or " name="keyword2" id="keyword2">
+                <!--button type="button" onclick="" class="btn btn-lg " style="color: black"-->
+                <button type="submit" class="btn btn-lg " style="color: black">
+                <span class="glyphicon glyphicon-search"></span> Search</button>
             </form>
         </div>
     </div>
@@ -105,8 +105,8 @@
                             Apply to jobs in just one click. Apply to thousands of jobs posted daily.</p>
                     </div>
                     <div class="panel-footer">
-                        <a href="js_register.html" style="color: inherit"><button class="btn btn-lg">Sign
-                                Up</button></a>
+                        <a href="js_register.html" style="color: inherit"><button class="btn btn-lg">
+                                Sign Up</button></a>
                     </div>
                 </div>
             </div>
@@ -150,28 +150,106 @@
     <div class="page-header" style="background: #f4511e"></div>
     </div> <!-- Container -->
     <!-- Set height and width with CSS -->
+    <div id="googleMap" style="height:400px;width:100%;"></div>
+
+    <!-- Add Google Maps -->
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        function logout(){
-            localStorage.removeItem("JWT");
-            console.log("done?");
-            refreshNavBar();
+        var myCenter = new google.maps.LatLng(11.2680519, 75.7891479);
+
+        function initialize() {
+            var mapProp = {
+                center: myCenter,
+                zoom: 12,
+                scrollwheel: false,
+                draggable: false,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+            var marker = new google.maps.Marker({
+                position: myCenter,
+            });
+
+            marker.setMap(map);
         }
-        const login_items = document.getElementsByClassName("login-item");
-        const logout_item = document.querySelector(".logout-item");
-        function refreshNavBar(){
-            if (localStorage.getItem("JWT") !== null) {
-                for (let i = 0; i < login_items.length; i++) {
-                    login_items[i].classList.add("hidden");
-                }
-                logout_item.classList.remove("hidden")
-            } else {
-                for (let i = 0; i < login_items.length; i++) {
-                    login_items[i].classList.remove("hidden");
-                }
-                logout_item.classList.add("hidden")
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+        //axios
+        let subcontent = document.getElementById('subcontent');
+
+        const homesearch = document.getElementById('homesearch');
+        homesearch.addEventListener("submit", e => {
+            e.preventDefault()
+            keyword = document.getElementById('keyword').value;
+            keyword2 = document.getElementById('keyword2').value;
+            axios.get(`/jobs/search?p1=${keyword}&p2=${keyword2}`)
+                .then(res => dynamicSearchRes(res.data)) //succ
+                .catch(err => console.log(err)) //err
+        });
+
+
+
+        function dynamicSearchRes(data) {
+
+            console.log(JSON.stringify(data[1]));
+
+            //init
+            let fragment = new DocumentFragment();
+            const keys = Object.keys(data);
+            subcontent.innerHTML = '';
+
+            //check if values present
+            if(keys.length > 0){
+
+                //first listing
+                let ul = document.createElement('ul');
+                //append, as a child to the <div<
+                subcontent.appendChild(ul);
+
+                //iterate over each result; number of results
+                for (let i = 0; i < keys.length; i++) {
+                    const key = keys[i];
+                    console.log(key, data[key]);
+
+                    //<li> -> <ul>
+                    let li = document.createElement('li');
+                    let ulInner = document.createElement('ul');
+                    
+                    //iteration fragment
+                    let fragmentInner = new DocumentFragment();
+
+                    //iterate over each object in the returned JSON
+                    for (const obj in data[key]) {
+                        if(obj=='_id' || obj == '__v' ) {
+                            continue;
+                        }
+                        //console.log(obj);
+                        //console.log(data[key][obj]);
+
+                        value = data[key][obj];
+                        let li1 = document.createElement('li');
+                        li1.innerHTML = `${obj}: ${value}`;
+                        fragmentInner.append(li1);
+                    }
+
+                    //when finished append fragmentInner <li>...<li>n as a child to inner ul
+                    ulInner.appendChild(fragmentInner);
+
+                    //append inner <UL> inside one of the <li> tags
+                    li.appendChild(ulInner);
+
+                    //when finished append to outer fragment <li> collection of lists
+                    fragment.append(li);
+                    }
+                ul.appendChild(fragment);
             }
-        }
-        refreshNavBar();
+        };
+
+
     </script>
 </body>
 </body>
